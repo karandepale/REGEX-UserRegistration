@@ -33,6 +33,8 @@ namespace RegexUserRegistration
             bool isValidMobileNumber = Regex.IsMatch(mobileNumber, mobilePattern);
             bool isValidPassword = Regex.IsMatch(password, passwordPattern);
 
+            Console.Clear(); // Clears the console screen
+
             if (isValidFirstName)
             {
                 Console.WriteLine("Valid first name.");
