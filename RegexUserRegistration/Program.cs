@@ -10,8 +10,12 @@ namespace RegexUserRegistration
             Console.WriteLine("Enter First name: ");
             string firstName = Console.ReadLine();
 
-            string pattern = "^[A-Z][a-zA-Z]{2,}$";
-            bool isValidFirstName = Regex.IsMatch(firstName, pattern);
+            Console.WriteLine("Enter Last name: ");
+            string lastName = Console.ReadLine();
+
+            string namePattern = "^[A-Z][a-zA-Z]{2,}$";
+            bool isValidFirstName = Regex.IsMatch(firstName, namePattern);
+            bool isValidLastName = Regex.IsMatch(lastName, namePattern);
 
             if (isValidFirstName)
             {
@@ -20,6 +24,15 @@ namespace RegexUserRegistration
             else
             {
                 Console.WriteLine("Invalid first name.");
+            }
+
+            if (isValidLastName)
+            {
+                Console.WriteLine("Valid last name.");
+            }
+            else
+            {
+                Console.WriteLine("Invalid last name.");
             }
         }
     }
