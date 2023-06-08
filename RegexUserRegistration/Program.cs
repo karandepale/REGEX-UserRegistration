@@ -25,7 +25,7 @@ namespace RegexUserRegistration
             string namePattern = "^[A-Z][a-zA-Z]{2,}$";
             string emailPattern = @"^[a-zA-Z0-9]+([._+-][a-zA-Z0-9]+)*@[a-zA-Z0-9]+([.-][a-zA-Z0-9]+)*\.[a-zA-Z]{2,}$";
             string mobilePattern = @"^\d{2}\s\d{10}$";
-            string passwordPattern = @"^(?=.*[A-Z]).{8,}$";
+            string passwordPattern = @"^(?=.*[A-Z])(?=.*\d).{8,}$";
 
             bool isValidFirstName = Regex.IsMatch(firstName, namePattern);
             bool isValidLastName = Regex.IsMatch(lastName, namePattern);
