@@ -5,34 +5,49 @@ namespace RegexUserRegistration
 {
     public class Program
     {
-        public bool ValidateFirstName(string firstName)
+        public void ValidateFirstName(string firstName)
         {
             string namePattern = "^[A-Z][a-zA-Z]{2,}$";
-            return Regex.IsMatch(firstName, namePattern);
+            if (!Regex.IsMatch(firstName, namePattern))
+            {
+                throw new InvalidUserDetailException("Invalid first name.");
+            }
         }
 
-        public bool ValidateLastName(string lastName)
+        public void ValidateLastName(string lastName)
         {
             string namePattern = "^[A-Z][a-zA-Z]{2,}$";
-            return Regex.IsMatch(lastName, namePattern);
+            if (!Regex.IsMatch(lastName, namePattern))
+            {
+                throw new InvalidUserDetailException("Invalid last name.");
+            }
         }
 
-        public bool ValidateEmail(string email)
+        public void ValidateEmail(string email)
         {
             string emailPattern = @"^[a-zA-Z0-9]+([._+-][a-zA-Z0-9]+)*@[a-zA-Z0-9]+([.-][a-zA-Z0-9]+)*\.[a-zA-Z]{2,}$";
-            return Regex.IsMatch(email, emailPattern);
+            if (!Regex.IsMatch(email, emailPattern))
+            {
+                throw new InvalidUserDetailException("Invalid email address.");
+            }
         }
 
-        public bool ValidateMobileNumber(string mobileNumber)
+        public void ValidateMobileNumber(string mobileNumber)
         {
             string mobilePattern = @"^\d{2}\s\d{10}$";
-            return Regex.IsMatch(mobileNumber, mobilePattern);
+            if (!Regex.IsMatch(mobileNumber, mobilePattern))
+            {
+                throw new InvalidUserDetailException("Invalid mobile number.");
+            }
         }
 
-        public bool ValidatePassword(string password)
+        public void ValidatePassword(string password)
         {
             string passwordPattern = @"^(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=]).{8,}$";
-            return Regex.IsMatch(password, passwordPattern);
+            if (!Regex.IsMatch(password, passwordPattern))
+            {
+                throw new InvalidUserDetailException("Invalid password.");
+            }
         }
 
         static void Main(string[] args)
@@ -53,58 +68,63 @@ namespace RegexUserRegistration
             string password = Console.ReadLine();
 
             Program obj = new Program();
-            bool isValidFirstName = obj.ValidateFirstName(firstName);
-            bool isValidLastName = obj.ValidateLastName(lastName);
-            bool isValidEmail = obj.ValidateEmail(email);
-            bool isValidMobileNumber = obj.ValidateMobileNumber(mobileNumber);
-            bool isValidPassword = obj.ValidatePassword(password);
 
-            Console.Clear();
-
-            if (isValidFirstName)
+            try
             {
+                obj.ValidateFirstName(firstName);
                 Console.WriteLine("Valid first name.");
             }
-            else
+            catch (InvalidUserDetailException ex)
             {
-                Console.WriteLine("Invalid first name.");
+                Console.WriteLine(ex.Message);
             }
 
-            if (isValidLastName)
+            try
             {
+                obj.ValidateLastName(lastName);
                 Console.WriteLine("Valid last name.");
             }
-            else
+            catch (InvalidUserDetailException ex)
             {
-                Console.WriteLine("Invalid last name.");
+                Console.WriteLine(ex.Message);
             }
 
-            if (isValidEmail)
+            try
             {
+                obj.ValidateEmail(email);
                 Console.WriteLine("Valid email address.");
             }
-            else
+            catch (InvalidUserDetailException ex)
             {
-                Console.WriteLine("Invalid email address.");
+                Console.WriteLine(ex.Message);
             }
 
-            if (isValidMobileNumber)
+            try
             {
+                obj.ValidateMobileNumber(mobileNumber);
                 Console.WriteLine("Valid mobile number.");
             }
-            else
+            catch (InvalidUserDetailException ex)
             {
-                Console.WriteLine("Invalid mobile number.");
+                Console.WriteLine(ex.Message);
             }
 
-            if (isValidPassword)
+            try
             {
+                obj.ValidatePassword(password);
                 Console.WriteLine("Valid password.");
             }
-            else
+            catch (InvalidUserDetailException ex)
             {
-                Console.WriteLine("Invalid password.");
+                Console.WriteLine(ex.Message);
             }
+        }
+    }
+
+    public class InvalidUserDetailException : Exception
+    {
+        public InvalidUserDetailException(string message) : base(message)
+        {
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RegexUserRegistration;
-using System.Data;
+using System;
 
 namespace UnitTestProject1
 {
@@ -18,19 +18,19 @@ namespace UnitTestProject1
             string mobileNumber = "91 1234567890";
             string password = "Pass@123";
 
-            // Act
-            bool isValidFirstName = obj.ValidateFirstName(firstName);
-            bool isValidLastName = obj.ValidateLastName(lastName);
-            bool isValidEmail = obj.ValidateEmail(email);
-            bool isValidMobileNumber = obj.ValidateMobileNumber(mobileNumber);
-            bool isValidPassword = obj.ValidatePassword(password);
-
-            // Assert
-            Assert.IsTrue(isValidFirstName);
-            Assert.IsTrue(isValidLastName);
-            Assert.IsTrue(isValidEmail);
-            Assert.IsTrue(isValidMobileNumber);
-            Assert.IsTrue(isValidPassword);
+            // Act & Assert
+            try
+            {
+                obj.ValidateFirstName(firstName);
+                obj.ValidateLastName(lastName);
+                obj.ValidateEmail(email);
+                obj.ValidateMobileNumber(mobileNumber);
+                obj.ValidatePassword(password);
+            }
+            catch (InvalidUserDetailException ex)
+            {
+                Assert.Fail("Exception thrown: " + ex.Message);
+            }
         }
 
         [TestMethod]
@@ -44,35 +44,33 @@ namespace UnitTestProject1
             string mobileNumber = "1234567890";
             string password = "password";
 
-            // Act
-            bool isValidFirstName = obj.ValidateFirstName(firstName);
-            bool isValidLastName = obj.ValidateLastName(lastName);
-            bool isValidEmail = obj.ValidateEmail(email);
-            bool isValidMobileNumber = obj.ValidateMobileNumber(mobileNumber);
-            bool isValidPassword = obj.ValidatePassword(password);
-
-            // Assert
-            Assert.IsFalse(isValidFirstName);
-            Assert.IsFalse(isValidLastName);
-            Assert.IsFalse(isValidEmail);
-            Assert.IsFalse(isValidMobileNumber);
-            Assert.IsFalse(isValidPassword);
+            // Act & Assert
+            Assert.ThrowsException<InvalidUserDetailException>(() => obj.ValidateFirstName(firstName));
+            Assert.ThrowsException<InvalidUserDetailException>(() => obj.ValidateLastName(lastName));
+            Assert.ThrowsException<InvalidUserDetailException>(() => obj.ValidateEmail(email));
+            Assert.ThrowsException<InvalidUserDetailException>(() => obj.ValidateMobileNumber(mobileNumber));
+            Assert.ThrowsException<InvalidUserDetailException>(() => obj.ValidatePassword(password));
         }
 
         [TestMethod]
-        [DataRow("test@example.com")]
-        [DataRow("user123@gmail.com")]
-        [DataRow("john.doe@example.co.uk")]
-        public void TestMultipleEmailEntries(string email)
+        public void TestMultipleEmailEntries()
         {
             // Arrange
             Program obj = new Program();
+            string[] validEmails = { "test@example.com", "user123@gmail.com", "john.doe@example.co.uk" };
 
-            // Act
-            bool isValidEmail = obj.ValidateEmail(email);
-
-            // Assert
-            Assert.IsTrue(isValidEmail);
+            // Act & Assert
+            foreach (string email in validEmails)
+            {
+                try
+                {
+                    obj.ValidateEmail(email);
+                }
+                catch (InvalidUserDetailException ex)
+                {
+                    Assert.Fail("Exception thrown: " + ex.Message);
+                }
+            }
         }
     }
 }
