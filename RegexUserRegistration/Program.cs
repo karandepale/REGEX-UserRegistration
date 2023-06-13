@@ -3,8 +3,38 @@ using System.Text.RegularExpressions;
 
 namespace RegexUserRegistration
 {
-    internal class Program
+    public class Program
     {
+        public bool ValidateFirstName(string firstName)
+        {
+            string namePattern = "^[A-Z][a-zA-Z]{2,}$";
+            return Regex.IsMatch(firstName, namePattern);
+        }
+
+        public bool ValidateLastName(string lastName)
+        {
+            string namePattern = "^[A-Z][a-zA-Z]{2,}$";
+            return Regex.IsMatch(lastName, namePattern);
+        }
+
+        public bool ValidateEmail(string email)
+        {
+            string emailPattern = @"^[a-zA-Z0-9]+([._+-][a-zA-Z0-9]+)*@[a-zA-Z0-9]+([.-][a-zA-Z0-9]+)*\.[a-zA-Z]{2,}$";
+            return Regex.IsMatch(email, emailPattern);
+        }
+
+        public bool ValidateMobileNumber(string mobileNumber)
+        {
+            string mobilePattern = @"^\d{2}\s\d{10}$";
+            return Regex.IsMatch(mobileNumber, mobilePattern);
+        }
+
+        public bool ValidatePassword(string password)
+        {
+            string passwordPattern = @"^(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=]).{8,}$";
+            return Regex.IsMatch(password, passwordPattern);
+        }
+
         static void Main(string[] args)
         {
             Console.WriteLine("Enter First name: ");
@@ -22,18 +52,14 @@ namespace RegexUserRegistration
             Console.WriteLine("Enter Password: ");
             string password = Console.ReadLine();
 
-            string namePattern = "^[A-Z][a-zA-Z]{2,}$";
-            string emailPattern = @"^[a-zA-Z0-9]+([._+-][a-zA-Z0-9]+)*@[a-zA-Z0-9]+([.-][a-zA-Z0-9]+)*\.[a-zA-Z]{2,}$";
-            string mobilePattern = @"^\d{2}\s\d{10}$";
-            string passwordPattern = @"^(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=]).{8,}$";
+            Program obj = new Program();
+            bool isValidFirstName = obj.ValidateFirstName(firstName);
+            bool isValidLastName = obj.ValidateLastName(lastName);
+            bool isValidEmail = obj.ValidateEmail(email);
+            bool isValidMobileNumber = obj.ValidateMobileNumber(mobileNumber);
+            bool isValidPassword = obj.ValidatePassword(password);
 
-            bool isValidFirstName = Regex.IsMatch(firstName, namePattern);
-            bool isValidLastName = Regex.IsMatch(lastName, namePattern);
-            bool isValidEmail = Regex.IsMatch(email, emailPattern);
-            bool isValidMobileNumber = Regex.IsMatch(mobileNumber, mobilePattern);
-            bool isValidPassword = Regex.IsMatch(password, passwordPattern);
-
-            Console.Clear(); // Clears the console screen
+            Console.Clear();
 
             if (isValidFirstName)
             {
