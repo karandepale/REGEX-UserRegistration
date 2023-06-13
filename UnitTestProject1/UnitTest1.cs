@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RegexUserRegistration;
+using System.Data;
 
 namespace UnitTestProject1
 {
@@ -11,7 +12,6 @@ namespace UnitTestProject1
         {
             // Arrange
             Program obj = new Program();
-
             string firstName = "Karan";
             string lastName = "Depale";
             string email = "KaranTest@example.com";
@@ -57,6 +57,22 @@ namespace UnitTestProject1
             Assert.IsFalse(isValidEmail);
             Assert.IsFalse(isValidMobileNumber);
             Assert.IsFalse(isValidPassword);
+        }
+
+        [TestMethod]
+        [DataRow("test@example.com")]
+        [DataRow("user123@gmail.com")]
+        [DataRow("john.doe@example.co.uk")]
+        public void TestMultipleEmailEntries(string email)
+        {
+            // Arrange
+            Program obj = new Program();
+
+            // Act
+            bool isValidEmail = obj.ValidateEmail(email);
+
+            // Assert
+            Assert.IsTrue(isValidEmail);
         }
     }
 }
